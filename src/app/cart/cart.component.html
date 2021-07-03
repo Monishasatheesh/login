@@ -1,0 +1,176 @@
+
+<div class="container">
+<h3 class="text-center mt-5 mb-5">Restaurant App</h3>
+<div class="row justify-content-center">
+
+    <div class="col-md-4 mt-3">
+    	<div class="col-auto">
+      <label >Order No.</label>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">#</div>
+        </div>
+        <input type="text" class="form-control"   [(ngModel)]="order.order_no">
+       
+      </div>
+       <small class="text-danger" *ngIf="submitted2 && order.order_no==''">This field is required</small>
+    </div>
+    </div>
+
+
+	<div class="col-md-4 mt-3">
+<div class="form-group">
+    <label >Payment Method.</label>
+    <select class="form-control"  [(ngModel)]="order.payment_method">
+      <option>Cash</option>
+      <option>Credit Card</option>
+      <option>Debit Card</option>
+    </select>
+     <small class="text-danger" *ngIf="submitted2 && order.payment_method==''">This field is required</small>
+</div>
+</div>
+ </div>
+
+ <div class="row justify-content-center">
+ 	<div class="col-md-4">
+ 		<div class="form-group">
+    <label >Customer</label>
+    <input type="text" class="form-control"[(ngModel)]="order.customer">
+    <small class="text-danger" *ngIf="submitted2 && order.customer==''">This field is required</small>
+</div>
+ 	</div>
+
+<div class="col-md-4">
+ 		<div class="col-auto">
+      <label >Grand Total.</label>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Rs.</div>
+        </div>
+        <input type="text" class="form-control"  readonly [(ngModel)]="order.grand_total">
+       
+      </div>
+       <small class="text-danger" *ngIf="submitted2 && order.grand_total==''">This field is required</small>
+    </div>
+ 	</div>
+
+ </div>
+
+ <div class="row justify-content-center">
+ 	<div class="col-md-8">
+ 		
+ 		<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Food Item</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Total</th>
+      <th>
+      	<button type="button" class="btn  btn-success text-white" (click)="openModal(template)"><i class="fas fa-plus mr-2"></i>Add Item</button></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let field of cart">
+      <th scope="row">{{ field.fooditem }}</th>
+      <td>{{ field.price }}</td>
+      <td>{{ field.quantity }}</td>
+      <td>{{ field.total }}</td>
+      <td><button type="button" class="btn btn-primary  text-white mr-3" (click)="openModal1(template1,field)"><i class="far fa-edit"></i></button>
+      	
+      	<button class="btn btn-danger" (click)="delete(field.id)"><i class="far fa-trash-alt"></i></button></td>
+    </tr>
+</tbody>
+</table>
+<small class="text-danger" *ngIf="submitted2 && cart.length==0">This field is required</small>
+ 	</div>
+
+</div>
+
+<div class="row justify-content-center ">
+	<div class="col-md-4 ">
+		<button class="btn btn-warning  mr-5" (click)="submit()">Submit</button>
+		<a class="btn btn-primary"[routerLink]="['/orderlist']">View Orders</a>
+
+	</div>
+</div>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add New</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+    	<div class="col-md-12">
+    		<div class="form-group">
+    <label>Food item</label>
+    <input type="text" class="form-control" [(ngModel)]="item.fooditem">
+           </div>
+       <small class="text-danger" *ngIf="submitted && item.fooditem==''">This field is required</small>    
+
+
+  <div class="form-group">
+    <label>Price</label>
+    <input type="number" class="form-control"  min="1" [(ngModel)]="item.price" (keyup)="calculatePrice()">
+    <small class="text-danger" *ngIf="submitted && item.price==''">This field is required</small>    
+
+  </div>
+
+	<div class="form-group">
+    <label>Quantity</label>
+    <input type="number" class="form-control"  min="1" [(ngModel)]="item.quantity" (keyup)="calculatePrice()">
+    <small class="text-danger" *ngIf="submitted && item.quantity==''">This field is required</small>    
+   </div>
+      <div class="form-group">
+    <label>Total</label>
+    <input type="text" class="form-control"  readonly [(ngModel)]="item.total">
+     
+     </div>
+      <button class="btn btn-primary text-white " type="Submit" (click)="save()" >Save</button>
+      </div>
+    	
+    </div>
+     </div>
+    </ng-template>
+
+    <ng-template #template1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef1.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+    	<div class="col-md-12">
+    		<div class="form-group">
+    <label>Food item</label>
+    <input type="text" class="form-control"  [(ngModel)]="item.fooditem">
+           </div>
+
+
+  <div class="form-group">
+    <label>Price</label>
+    <input type="number" class="form-control"  min="1" [(ngModel)]="item.price" (keyup)="calculatePrice()">
+  </div>
+
+	<div class="form-group">
+    <label>Quantity</label>
+    <input type="number" class="form-control"  min="1" [(ngModel)]="item.quantity" (keyup)="calculatePrice()">
+
+   </div>
+      <div class="form-group">
+    <label>Total</label>
+    <input type="text" class="form-control"  readonly [(ngModel)]="item.total">
+
+     </div>
+      <button class="btn btn-danger text-white" (click)="update(item)">Update</button>
+      </div>
+    	
+    </div>
+     </div>
+    </ng-template>
+
+    </div>

@@ -1,0 +1,30 @@
+<div class="container">
+<div class="row justify-content-center align-items-center min-vh-100">        
+<div class="col-md-4 text-center ">
+ <div class="alert alert-success" role="alert"  *ngIf="submitted && success==true">{{ successMessage }}</div>
+<div class="alert alert-danger" role="alert"   *ngIf=" submitted && error==true">{{ errorMessage }}</div>
+
+
+<div class="card ">
+	<div class="card-body bg-primary">
+     <h4 class="text-white">Signup form</h4>
+     <hr>
+     <div class="form-group">
+     <input type="text" name="email" class="form-control" placeholder="Email" [(ngModel)]="users.email">
+     <small class="text-danger" *ngIf=" submitted && users.email==''">Please enter emaill</small>
+     </div>
+     <div class="form-group">
+     <input type="password" name="password" class="form-control" placeholder="Password" [(ngModel)]="users.password">
+     <small class="text-danger" *ngIf="submitted && users.password==''">Please enter password</small>
+      <small class="text-danger" *ngIf="submitted && users.password!==''&& users.password.length<6">Please enter above 6 characters</small>
+     </div>
+      
+     <button class="btn btn-primary text-white btn-block" (click)="login()">Login</button>
+     
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
